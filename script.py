@@ -7,8 +7,8 @@ yaml_content = st.text_area("YAML Content")
 
 
 # Define the form inputs
-deployment_name = st.text_input("Deployment Name", value="elk-deployment")
-namespace = st.text_input("Namespace", value="default")
+deployment_name = st.text_input("Deployment Name", value="")
+namespace = st.text_input("Namespace", value="")
 replicas = st.number_input("Replicas", min_value=0, value=1)
 image_names = {
     "elasticsearch": "elasticsearch:7.12.1",
