@@ -1,13 +1,10 @@
 import streamlit as st
 
-import streamlit as st
+
 
 # Define the form inputs
 yaml_content = st.text_area("YAML Content")
 
-# Display the provided YAML content
-st.subheader("Provided YAML Content:")
-st.code(yaml_content, language="yaml")
 
 # Define the form inputs
 deployment_name = st.text_input("Deployment Name", value="elk-deployment")
@@ -28,23 +25,7 @@ for container in image_names:
     }
 
 # Generate the YAML content based on form inputs
-yaml_content = f"""apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {deployment_name}
-  namespace: {namespace}
-spec:
-  replicas: {replicas}
-  selector:
-    matchLabels:
-      app: elk-app
-  template:
-    metadata:
-      labels:
-        app: elk-app
-    spec:
-      containers:
-"""
+
 for container in container_configs:
     image = container_configs[container]["image"]
     # Add container configurations (e.g., resources, environment variables, volume mounts) to YAML content
