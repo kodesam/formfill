@@ -1,6 +1,13 @@
 import streamlit as st
 import yaml
 
+# Install required packages
+st.write("Installing required packages...")
+st.script_runner.install_py_package('pyyaml')
+
+
+# Rest of the script...
+
 # Create a file uploader for YAML files
 yaml_file = st.file_uploader("Upload YAML File", type="yaml")
 
