@@ -1,5 +1,14 @@
 import streamlit as st
 
+import streamlit as st
+
+# Define the form inputs
+yaml_content = st.text_area("YAML Content")
+
+# Display the provided YAML content
+st.subheader("Provided YAML Content:")
+st.code(yaml_content, language="yaml")
+
 # Define the form inputs
 deployment_name = st.text_input("Deployment Name", value="elk-deployment")
 namespace = st.text_input("Namespace", value="default")
