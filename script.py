@@ -1,35 +1,31 @@
 import streamlit as st
+import yaml
 
+# Create a file uploader for YAML files
+yaml_file = st.file_uploader("Upload YAML File", type="yaml")
 
+if yaml_file:
+    # Load the YAML content from the file
+    yaml_content = yaml_file.read()
 
-# Define the form inputs
-yaml_content = st.text_area("YAML Content")
+    # Parse the YAML content
+    data = yaml.safe_load(yaml_content)
 
+    # Extract the metadata fields
+    metadata = data.get("metadata", {})
+    name = metadata.get("name", "")
+    namespace = metadata.get("namespace", "")
 
-# Define the form inputs
-deployment_name = st.text_input("Deployment Name", value="")
-namespace = st.text_input("Namespace", value="")
-replicas = st.number_input("Replicas", min_value=0, value=1)
-image_names = {
-    "elasticsearch": "elasticsearch:7.12.1",
-    "logstash": "logstash:7.12.1",
-    "kibana": "kibana:7.12.1",
-}
-container_configs = {}
-for container in image_names:
-    container_image = image_names[container]
-    # Prompt for container configurations (e.g., resources, environment variables, volume mounts)
-    container_configs[container] = {
-        "image": container_image,
-        # Add relevant configurations here
-    }
+    # Form inputs for modifying metadata fields
+    updated_name = st.text_input("Name", value=name)
+    updated_namespace = st.text_input("Namespace", value=namespace)
 
-# Generate the YAML content based on form inputs
+    # Update the metadata fields in the YAML content
+    metadata["name"] = updated_name
+    metadata["namespace"] = updated_namespace
 
-for container in container_configs:
-    image = container_configs[container]["image"]
-    # Add container configurations (e.g., resources, environment variables, volume mounts) to YAML content
+    # Save the updated YAML content
+    updated_content = yaml.safe_dump(data)
 
-# Display the generated YAML content
-st.subheader("Generated YAML Content:")
-st.code(yaml_content, language="yaml")
+    # Button to download the modified YAML file
+    st.download_button("Download Updated YAML", data=updated_content.encode(), file_name="updated.yaml", mime="text/yaml")
